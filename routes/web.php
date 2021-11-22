@@ -22,6 +22,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('posts', 'HomeController@posts')->name('posts');
-Route::get('single-post', 'HomeController@singlePost')->name('single-post');
-Route::get('tag', 'HomeController@tag')->name('tag');
+// Route::get('{slug}', 'HomeController@posts')->name('post');
+// Route::get('single-post/{slug}', 'HomeController@singlePost')->name('single-post');
+// Route::get('topic/{slug}', 'HomeController@tag')->name('tag');
+
+Route::get('contact', 'HomeController@contact')->name('contact');
+Route::get('terms-of-use', 'HomeController@termsOfUse')->name('terms-of-use');
+
+Route::group(['prefix' => 'post'], function () {
+    Route::get('{slug}', 'HomeController@posts')->name('post');
+    Route::get('single-post/{slug}', 'HomeController@singlePost')->name('single-post');
+    Route::get('topic/{slug}', 'HomeController@tag')->name('tag');
+});
+    Route::get('latest-news', 'HomeController@latestNews')->name('latest-news');
+
+Route::get('/search/', 'HomeController@search')->name('search');
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
